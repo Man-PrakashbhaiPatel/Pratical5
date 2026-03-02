@@ -1,5 +1,5 @@
 const express = require("express");
-const Order = require("../models/Order");
+const Order = require("../model/model/order");
 
 const router = express.Router();
 
@@ -23,5 +23,6 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
+
 
 module.exports = router;
