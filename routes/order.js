@@ -1,28 +1,10 @@
 const express = require("express");
-const Order = require("../model/model/order");
-
 const router = express.Router();
+const orderController = require("../controllers/orderController");
 
-// Create Order
-router.post("/", async (req, res, next) => {
-  try {
-    const order = new Order(req.body);
-    await order.save();
-    res.status(201).json(order);
-  } catch (err) {
-    next(err);
-  }
-});
-
-// Get Orders
-router.get("/", async (req, res, next) => {
-  try {
-    const orders = await Order.find().populate("products.productId");
-    res.json(orders);
-  } catch (err) {
-    next(err);
-  }
-});
-
+router.post("/", orderController.createOrder);
+router.get("/", orderController.getAllOrders);
+router.get("/:id", orderController.getOrderById);
+router.delete("/:id", orderController.deleteOrder);
 
 module.exports = router;

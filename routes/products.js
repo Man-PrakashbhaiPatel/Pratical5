@@ -1,38 +1,11 @@
 const express = require("express");
-const { body } = require("express-validator");
-const Product = require("../model/model/product");
-const validate = require("../middleware/validate");
-
 const router = express.Router();
+const productController = require("../controllers/productController");
 
-// Create Product
-router.post(
-  "/",
-  [
-    body("name").notEmpty().withMessage("Name required"),
-    body("price").isNumeric().withMessage("Price must be number"),
-    body("stock").isNumeric().withMessage("Stock must be number")
-  ],
-  validate,
-  async (req, res, next) => {
-    try {
-      const product = new Product(req.body);
-      await product.save();
-      res.status(201).json(product);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
-
-// Get All Products
-router.get("/", async (req, res, next) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (err) {
-    next(err);
-  }
-});
+router.post("/", productController.createProduct);
+router.get("/", productController.getAllProducts);
+router.get("/:id", productController.getProductById);
+router.put("/:id", productController.updateProduct);
+router.delete("/:id", productController.deleteProduct);
 
 module.exports = router;

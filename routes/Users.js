@@ -1,25 +1,11 @@
-const express = require("express");
-const User = require("../model/model/User");
-
+const express =  require("express");
 const router = express.Router();
+const userController = require("../controllers/userController");
 
-router.post("/", async (req, res, next) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    res.status(201).json(user);
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get("/", async (req, res, next) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    next(err);
-  }
-});
+router.post("/", userController.createUser);
+router.get("/", userController.getAllUsers);
+router.get("/:id", userController.getUserById);
+router.put("/:id", userController.updateUser);
+router.delete("/:id", userController.deleteUser);
 
 module.exports = router;

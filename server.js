@@ -19,10 +19,12 @@ app.use("/orders", require("./routes/order"));
 app.use(require("./middleware/errorhandler"));
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("Database Connected"))
+const PORT = 3000;
+
+mongoose.connect("mongodb://127.0.0.1:27017/practical6")
+  .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
